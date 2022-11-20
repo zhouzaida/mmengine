@@ -3,9 +3,15 @@ from unittest.mock import patch
 
 import torch
 import torch.nn as nn
+from torch.utils.data import DataLoader
+from typing import Optional, Union
 
 from mmengine.model import BaseModel
+from mmengine.config import Config
 from mmengine.registry import MODELS
+from mmengine.hooks import RuntimeInfoHook as _RuntimeInfoHook
+from mmengine.runner import Runner
+
 
 
 @MODELS.register_module()
@@ -61,3 +67,46 @@ def fake_run(cfg):
 
     # start training
     runner.train()
+
+
+class RuntimeInfoHook(_RuntimeInfoHook):
+
+    def before_train_iter(self, runner, batch_idx, data_batch = None) -> None:
+        runner.message_hub.update_info('iter', runner.iter)
+
+        lr_dict = runner.optim_wrapper.get_lr()
+        for name, lr in lr_dict.items():
+            runner.message_hub.update_scalar(f'train/{name}', lr[0])
+
+        momentum_dict = runner.optim_wrapper.get_momentum()
+        for name, momentum in momentum_dict.items():
+            runner.message_hub.update_scalar(f'train/{name}', momentum[0])
+
+
+def visualize_scheduler(
+    cfg: Union[str, dict, Config, None] = None,
+    *,
+    by_epoch: bool = True,
+    epochs: int = 1,
+
+    param_list: tuple = ('lr', 'momentum'),
+    dataset_size: Optional[str] = None,
+    num_gpus: int = 1,
+    window_size: tuple = (12, 7),
+    work_dir: Optional[str] = None,
+):
+    """Visualize parameter scheduler.
+    
+    Args:
+        cfg (str, optional):
+        param_list
+    """
+    if isinstance(cfg, str):
+        cfg = Config.fromfile(cfg)
+    
+    dataloader = DataLoader()
+    runner = Runner(
+        model = ToyModel(),
+        work_dir = work_dir,
+        train_dataloader = dataloader,
+    )
