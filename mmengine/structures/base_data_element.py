@@ -233,6 +233,7 @@ class BaseDataElement:
             data (dict): A dict contains annotations of image or
                 model predictions.
         """
+        print('set_data')
         assert isinstance(data,
                           dict), f'meta should be a `dict` but got {data}'
         for k, v in data.items():
@@ -379,6 +380,7 @@ class BaseDataElement:
                 raise AttributeError(f'{name} has been used as a '
                                      'private attribute, which is immutable. ')
         else:
+            print(self.__class__.__name__, '__setattr__')
             self.set_field(
                 name=name, value=value, field_type='data', dtype=None)
 
@@ -459,6 +461,7 @@ class BaseDataElement:
                     f'Cannot set {name} to be a field of data '
                     f'because {name} is already a metainfo field')
             self._data_fields.add(name)
+        print('set_field', name, self._data_fields)
         super().__setattr__(name, value)
 
     # Tensor-like methods

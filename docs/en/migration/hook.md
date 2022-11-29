@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Due to the upgraded architecture design and increasing user requirements, MMCV's hook points are no longer sufficient for the needs, so the hook points are redesigned and the hook functions are adjusted in MMEngine. Before starting the migration, read [Hook Design](../design/hook.md) would be helpful.
+Due to the upgraded architecture and increasing user requirements, MMCV's hook points are no longer sufficient for the needs, so they are redesigned and the hook functions are adjusted in MMEngine. Before starting the migration, read [Hook Design](../design/hook.md) would be helpful.
 
-This article compares the hooks of [MMCV v1.6.0](https://github.com/open-mmlab/mmcv/tree/v1.6.0) and [MMEngine v0.1.0](https://github.com/open-mmlab/mmengine/tree/v0.1.0) of hooks in terms of function, point, usage and implementation.
+This article compares the hooks of [MMCV v1.6.0](https://github.com/open-mmlab/mmcv/tree/v1.6.0) and [MMEngine v0.1.0](https://github.com/open-mmlab/mmengine/tree/v0.1.0) in terms of function, point, usage and implementation.
 
 ## Differences in functionaliy
 
@@ -18,7 +18,7 @@ This article compares the hooks of [MMCV v1.6.0](https://github.com/open-mmlab/m
 </thead>
 <tbody>
   <tr>
-    <td rowspan="2">反向传播以及梯度更新</td>
+    <td rowspan="2">Perform back propagation and update gradient</td>
     <td>OptimizerHook</td>
     <td rowspan="2">将反向传播以及梯度更新的操作抽象成 <a href="../tutorials/optim_wrapper.html">OptimWrapper</a> 而不是钩子</td>
   </tr>
@@ -26,30 +26,30 @@ This article compares the hooks of [MMCV v1.6.0](https://github.com/open-mmlab/m
     <td>GradientCumulativeOptimizerHook</td>
   </tr>
   <tr>
-    <td>学习率调整</td>
+    <td>Learning rate scheduler</td>
     <td>LrUpdaterHook</td>
     <td rowspan="2">ParamSchdulerHook 以及 <a href="../tutorials/param_scheduler.html">_ParamScheduler</a> 的子类完成优化器超参的调整</td>
   </tr>
   <tr>
-    <td>动量调整</td>
+    <td>Momentum scheduler</td>
     <td>MomentumUpdaterHook</td>
   </tr>
   <tr>
-    <td>按指定间隔保存权重</td>
+    <td>Save checkpoints periodicall</td>
     <td>CheckpointHook</td>
     <td rowspan="2">CheckpointHook 除了保存权重，还有保存最优权重的功能，而 EvalHook 的模型评估功能则交由 ValLoop 或 TestLoop 完成</td>
   </tr>
   <tr>
-    <td>模型评估并保存最优模型</td>
+    <td>Evaluate model and save best checkpoint</td>
     <td>EvalHook</td>
   </tr>
   <tr>
-    <td>打印日志</td>
-    <td rowspan="3">LoggerHook 及其子类实现打印日志、保存日志以及可视化功能</td>
+    <td>Print log</td>
+    <td rowspan="3">LoggerHook and its subclasses to print (save) logs and visualization</td>
     <td>LoggerHook</td>
   </tr>
   <tr>
-    <td>可视化</td>
+    <td>Visualization</td>
     <td>NaiveVisualizationHook</td>
   </tr>
   <tr>
@@ -57,39 +57,39 @@ This article compares the hooks of [MMCV v1.6.0](https://github.com/open-mmlab/m
     <td>RuntimeInfoHook</td>
   </tr>
   <tr>
-    <td>模型参数指数滑动平均</td>
+    <td>Apply Exponential Moving Average (EMA) on the model during training</td>
     <td>EMAHook</td>
     <td>EMAHook</td>
   </tr>
   <tr>
-    <td>确保分布式 Sampler 的 shuffle 生效</td>
+    <td>Ensure the shuffle of distributed Sampler is active</td>
     <td>DistSamplerSeedHook</td>
     <td>DistSamplerSeedHook</td>
   </tr>
   <tr>
-    <td>同步模型的 buffer</td>
+    <td>Synchronize model buffers</td>
     <td>SyncBufferHook</td>
     <td>SyncBufferHook</td>
   </tr>
   <tr>
-    <td>PyTorch CUDA 缓存清理</td>
+    <td>Releases all unoccupied cached GPU memory</td>
     <td>EmptyCacheHook</td>
     <td>EmptyCacheHook</td>
   </tr>
   <tr>
-    <td>统计迭代耗时</td>
+    <td>Time consumption during iteration</td>
     <td>IterTimerHook</td>
     <td>IterTimerHook</td>
   </tr>
   <tr>
-    <td>分析训练时间的瓶颈</td>
+    <td>Collect the performance metrics during training and inference</td>
     <td>ProfilerHook</td>
-    <td>暂未提供</td>
+    <td>Not available</td>
   </tr>
   <tr>
     <td>提供注册方法给钩子点位的功能</td>
     <td>ClosureHook</td>
-    <td>暂未提供</td>
+    <td>Not available</td>
   </tr>
 </tbody>
 </table>

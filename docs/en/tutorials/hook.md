@@ -22,18 +22,18 @@ Each hook has a corresponding priority. At each mount point, hooks with higher p
 
 |                    Name                     |                                                       Function                                                       |     Priority      |
 | :-----------------------------------------: | :------------------------------------------------------------------------------------------------------------------: | :---------------: |
-|     [RuntimeInfoHook](#runtimeinfohook)     |                                     update runtime information into message hub                                      |  VERY_HIGH (10)   |
+|     [RuntimeInfoHook](#runtimeinfohook)     |                                     Update runtime information into message hub                                      |  VERY_HIGH (10)   |
 |       [IterTimerHook](#itertimerhook)       |                               Update the time spent during iteration into message hub                                |    NORMAL (50)    |
-| [DistSamplerSeedHook](#distsamplerseedhook) |                                     Ensure distributed Sampler shuffle is active                                     |    NORMAL (50)    |
+| [DistSamplerSeedHook](#distsamplerseedhook) |                                 Ensure the shuffle of distributed Sampler is active                                  |    NORMAL (50)    |
 |          [LoggerHook](#loggerhook)          | Collect logs from different components of `Runner` and write them to terminal, JSON file, tensorboard and wandb .etc | BELOW_NORMAL (60) |
-|  [ParamSchedulerHook](#paramschedulerhook)  |                                      update some hyper-parameters of optimizer                                       |     LOW (70)      |
+|  [ParamSchedulerHook](#paramschedulerhook)  |                                      Update some hyper-parameters of optimizer                                       |     LOW (70)      |
 |      [CheckpointHook](#checkpointhook)      |                                            Save checkpoints periodically                                             |   VERY_LOW (90)   |
 
 **custom hooks**
 
 |                Name                 |                                 Function                                 |  Priority   |
 | :---------------------------------: | :----------------------------------------------------------------------: | :---------: |
-|         [EMAHook](#emahook)         |   apply Exponential Moving Average (EMA) on the model during training    | NORMAL (50) |
+|         [EMAHook](#emahook)         |   Apply Exponential Moving Average (EMA) on the model during training    | NORMAL (50) |
 |  [EmptyCacheHook](#emptycachehook)  | Releases all unoccupied cached GPU memory during the process of training | NORMAL (50) |
 | [SyncBuffersHook](#syncbuffershook) |            Synchronize model buffers at the end of each epoch            | NORMAL (50) |
 
